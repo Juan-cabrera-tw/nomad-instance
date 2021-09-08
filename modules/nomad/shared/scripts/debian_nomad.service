@@ -1,0 +1,13 @@
+[Unit]
+Description=nomad agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+EnvironmentFile=-/etc/sysconfig/nomad
+Restart=on-failure
+ExecStart=/usr/local/bin/nomad agent -dev -bind 0.0.0.0 -log-level INFO
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
