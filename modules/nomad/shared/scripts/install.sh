@@ -39,8 +39,6 @@ else
 fi
 
 DIR_TO_JOIN=$(cat /tmp/nomad-server-addr | tr -d '\n')
-echo '+++++++++++++++++ '
-echo $DIR_TO_JOIN
 
 echo 'Write the flags to a temporary file'
 SERVER_FILE=/tmp/nomad-server-count
@@ -115,6 +113,14 @@ consul {
    address = "127.0.0.1:8500"
 }
 EOF
+echo "installing docker"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+sudo apt-get install docker.io -y
+
+echo "installing aws cli"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
 fi
 
 echo "Installing Systemd nomad service..."
