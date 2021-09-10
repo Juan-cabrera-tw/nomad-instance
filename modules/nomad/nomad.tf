@@ -15,7 +15,6 @@ resource "aws_instance" "server" {
     private_key = file(var.key_path)
   }
 
-  #Instance tags
   tags = {
     Name      = "${var.tagName}-${count.index}"
     nomadRole = var.servers > count.index ? "server" : "client"
@@ -41,7 +40,6 @@ resource "aws_instance" "server" {
     scripts = [
       "${path.module}/shared/scripts/install.sh",
       "${path.module}/shared/scripts/service.sh"
-      #"${path.module}/shared/scripts/ip_tables.sh",
     ]
   }
 }
