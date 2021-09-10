@@ -12,12 +12,20 @@ variable "ami" {
   default     = "ami-9686a4f3"
 }
 
-variable "service_conf" {
+variable "service_nomad_conf" {
   default = "debian_nomad.service"
 }
 
-variable "service_conf_dest" {
+variable "service_nomad_conf_dest" {
   default = "nomad.service"
+}
+
+variable "service_consul_conf" {
+  default = "debian_consul.service"
+}
+
+variable "service_consul_conf_dest" {
+  default = "consul.service"
 }
 
 variable "key_name" {
@@ -34,7 +42,12 @@ variable "region" {
 
 variable "servers" {
   default     = "1"
-  description = "The number of Consul servers to launch."
+  description = "The number of nomad servers to launch."
+}
+
+variable "clients" {
+  default     = "2"
+  description = "The number of nomad servers to launch."
 }
 
 variable "instance_type" {

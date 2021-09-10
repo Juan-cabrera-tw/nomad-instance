@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Starting Consul..."
+echo "Starting nomad..."
 if [ -x "$(command -v systemctl)" ]; then
   echo "using systemctl"
-  sudo systemctl enable consul.service
-  sudo systemctl start consul
+  sudo systemctl enable nomad.service
+  sudo systemctl start nomad
 else 
   echo "using upstart"
-  sudo start consul
+  sudo start nomad
 fi

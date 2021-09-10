@@ -1,6 +1,6 @@
 module "nomad" {
   source   = "./modules/nomad"
-  key_name = aws_key_pair.mykey.key_name
+  key_name = aws_key_pair.key.key_name
   key_path = var.PRIVATE_KEY_PATH
   region   = var.AWS_REGION
   vpc_id   = aws_default_vpc.default.id
