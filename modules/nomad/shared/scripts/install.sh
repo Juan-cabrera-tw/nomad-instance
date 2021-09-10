@@ -39,13 +39,14 @@ else
 fi
 
 DIR_TO_JOIN=$(cat /tmp/nomad-server-addr | tr -d '\n')
-
+echo '+++++++++++++++++ '
+echo $DIR_TO_JOIN
 
 echo 'Write the flags to a temporary file'
 SERVER_FILE=/tmp/nomad-server-count
 if [ -f "$SERVER_FILE" ]; then
     cat >/tmp/consul_flags << EOF
-    CONSUL_FLAGS="-server -bootstrap-expect=1 -join=${DIR_TO_JOIN_JOIN} -data-dir=/opt/consul/data"
+    CONSUL_FLAGS="-server -bootstrap-expect=1 -join=${DIR_TO_JOIN} -data-dir=/opt/consul/data"
 EOF
     echo "$SERVER_FILE exists."
     cat >/tmp/nomad.conf << EOF

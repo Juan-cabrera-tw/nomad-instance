@@ -5,8 +5,8 @@ resource "aws_instance" "server" {
   key_name               = var.key_name
   count                  = var.servers + var.clients
   vpc_security_group_ids = ["${aws_security_group.nomad.id}"]
-  # subnet_id       = var.subnets[count.index % var.servers]
-  subnet_id = "subnet-01df501ab30171646"
+  subnet_id       = var.subnets[count.index % var.servers]
+  # subnet_id = "subnet-01df501ab30171646"
 
   connection {
     host        = coalesce(self.public_ip, self.private_ip)
