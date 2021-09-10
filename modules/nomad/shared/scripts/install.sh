@@ -41,13 +41,12 @@ fi
 DIR_TO_JOIN=$(cat /tmp/nomad-server-addr | tr -d '\n')
 
 
-echo 'Write the flags to a temporary file'
 SERVER_FILE=/tmp/nomad-server-count
 if [ -f "$SERVER_FILE" ]; then
+    echo "$SERVER_FILE exists."
     cat >/tmp/consul_flags << EOF
     CONSUL_FLAGS="-server -bootstrap-expect=1 -join=${DIR_TO_JOIN_JOIN} -data-dir=/opt/consul/data"
 EOF
-    echo "$SERVER_FILE exists."
     cat >/tmp/nomad.conf << EOF
 datacenter = "dc1"
 data_dir  = "/opt/nomad/data"
@@ -114,6 +113,14 @@ consul {
    address = "127.0.0.1:8500"
 }
 EOF
+echo "installing docker"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+echo "installing aws cli"
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
 fi
 
 echo "Installing Systemd nomad service..."
@@ -137,4 +144,3 @@ sudo chmod 0644 /etc/systemd/system/consul.service
 sudo mv /tmp/consul_flags /etc/sysconfig/consul
 sudo chown root:root /etc/sysconfig/consul
 sudo chmod 0644 /etc/sysconfig/consul
-
