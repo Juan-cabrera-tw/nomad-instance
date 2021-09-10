@@ -39,8 +39,6 @@ resource "aws_instance" "server" {
 
   provisioner "remote-exec" {
     scripts = [
-      "${path.module}/shared/scripts/install_nomad.sh",
-      "${path.module}/shared/scripts/service_nomad.sh",
       "${path.module}/shared/scripts/install.sh",
       "${path.module}/shared/scripts/service.sh"
       #"${path.module}/shared/scripts/ip_tables.sh",
