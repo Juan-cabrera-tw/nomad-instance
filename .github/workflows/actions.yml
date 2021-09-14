@@ -1,0 +1,34 @@
+name: Actions Workflow
+
+on:
+  # repository_dispatch:
+  #   types: [build]
+  # schedule:
+  #   - cron: "0/5 * * * *"
+  #   - cron: "0/6 * * * *"
+  push: 
+  # pull_request:
+  #   types: [closed, assigned, opened, reopened]
+
+jobs:
+  run-github-actions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: payload
+        run: echo ${{ github.event.client_payload.env}}
+      - name: List Files
+        run: |
+          pwd
+          ls -a
+          echo $GITHUB_SHA
+          echo $GITHUB_REPOSITORY
+          echo $GITHUB_WROKSPACE
+          echo "{{ github.token }}"
+          # git clone git@github:$GITHUB_REPOSITORY
+          # git checkout $GITHUB_SHA
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: List Files after
+        run: |
+          pwd
+          ls -a

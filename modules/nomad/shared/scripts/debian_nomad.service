@@ -4,6 +4,8 @@ Requires=network-online.target
 After=network-online.target
 
 [Service]
+Environment=AWS_ACCESS_KEY_ID="XXXXXXXXXXXXXX"
+Environment=AWS_SECRET_ACCESS_KEY="XXXXXXXXXXXXXXXXXXX"
 EnvironmentFile=-/etc/sysconfig/nomad
 Restart=on-failure
 ExecStart=/usr/local/bin/nomad agent -config=/etc/sysconfig/nomad.conf -log-level INFO

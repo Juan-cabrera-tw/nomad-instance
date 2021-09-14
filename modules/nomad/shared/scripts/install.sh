@@ -109,6 +109,14 @@ plugin "raw_exec" {
   }
 }
 
+plugin "docker" {
+  config {
+    auth {
+      config = "/etc/docker-auth.json"
+    }
+  }
+}
+
 consul {
    address = "127.0.0.1:8500"
 }
@@ -121,6 +129,14 @@ echo "installing aws cli"
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
 unzip awscliv2.zip
 sudo ./aws/install
+
+echo "installing amazon-ecr-credential-helper"
+sudo apt install amazon-ecr-credential-helper
+sudo chmod +x /usr/bin/docker-credential-ecr-login
+echo "PATH=$PATH:/usr/bin" >> ~/.bashrc
+source ~/.bashrc
+sudo usermod -G docker -a nomad
+sudo mv /tmp/docker-auth.json /etc/docker-auth.json
 fi
 
 echo "Installing Systemd nomad service..."

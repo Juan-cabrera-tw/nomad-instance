@@ -9,7 +9,7 @@ variable "user" {
 
 variable "ami" {
   description = "AWS AMI Id, if you change, make sure it is compatible with instance type, not all AMIs allow all instance types "
-  default     = "ami-9686a4f3"
+  default     = "ami-00399ec92321828f5"
 }
 
 variable "service_nomad_conf" {
@@ -70,15 +70,9 @@ variable "vpc_id" {
   description = "ID of the VPC to use - in case your account doesn't have default VPC"
 }
 
-variable "my_system" {
-  default = "191.99.141.224/32"
+variable "vpc_security_group_ids" {
+  description = "ID of the VPC to use - in case your account doesn't have default VPC"
 }
 
-variable "http_port" {
-  default = 80
-}
 
-variable "ssh_port" {
-  default = 22
-}
 

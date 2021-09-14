@@ -1,5 +1,5 @@
-resource "aws_security_group" "nomad" {
-  name = "nomad-group-${var.platform}"
+resource "aws_security_group" "lab_squad_sg" {
+  name = "lab-squad-group-${var.platform}"
 
   ingress {
     from_port   = "0"

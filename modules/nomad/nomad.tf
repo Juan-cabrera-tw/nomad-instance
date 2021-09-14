@@ -1,13 +1,11 @@
-resource "aws_instance" "server" {
+resource "aws_instance" "nomad_ec2" {
   # ami             = var.ami["${var.region}-${var.platform}"]
   ami                    = var.ami
   instance_type          = var.instance_type
   key_name               = var.key_name
   count                  = var.servers + var.clients
-  vpc_security_group_ids = ["${aws_security_group.nomad.id}"]
+  vpc_security_group_ids = var.vpc_security_group_ids
   subnet_id       = var.subnets[count.index % var.servers]
-  # subnet_id = "subnet-01df501ab30171646"
-
   connection {
     host        = coalesce(self.public_ip, self.private_ip)
     type        = "ssh"
@@ -29,17 +27,28 @@ resource "aws_instance" "server" {
     destination = "/tmp/${var.service_consul_conf_dest}"
   }
 
+  provisioner "file" {
+    source      = "${path.module}/shared/scripts/docker-auth.json"
+    destination = "/tmp/docker-auth.json"
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/shared/scripts/fabio.nomad"
+    destination = "/tmp/fabio.nomad"
+  }
+
   provisioner "remote-exec" {
     inline = [
       var.servers > count.index ? "echo ${var.servers} > /tmp/nomad-server-count" : "echo ${var.clients} > /tmp/nomad-client-count",
-      "echo ${aws_instance.server[0].private_ip} > /tmp/nomad-server-addr",
+      "echo ${aws_instance.nomad_ec2[0].private_ip} > /tmp/nomad-server-addr",
     ]
   }
 
   provisioner "remote-exec" {
     scripts = [
       "${path.module}/shared/scripts/install.sh",
-      "${path.module}/shared/scripts/service.sh"
+      "${path.module}/shared/scripts/service.sh",
+      "${path.module}/shared/scripts/run.sh"
     ]
   }
 }
