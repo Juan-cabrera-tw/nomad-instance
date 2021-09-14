@@ -18,13 +18,13 @@ resource "aws_alb_target_group" "frontend-target-group" {
 resource "aws_alb_target_group_attachment" "frontend-attachment-1" {
     target_group_arn = "${aws_alb_target_group.frontend-target-group.arn}"
     target_id = module.nomad.instances_ids[1]
-    port = 80
+    port = 9999
 }
 
 resource "aws_alb_target_group_attachment" "frontend-attachment-2" {
     target_group_arn = "${aws_alb_target_group.frontend-target-group.arn}"
     target_id = module.nomad.instances_ids[2]
-    port = 80
+    port = 9999
 }
 
 resource "aws_alb_listener" "frontend-listeners" {
