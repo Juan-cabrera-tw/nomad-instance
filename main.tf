@@ -1,3 +1,19 @@
+module "shared-state" {
+  source                      = "./modules/shared-state"
+  s3_bucket_name           = "tf-squad-states"
+  dynamo_db_table_name        = "terraform-lock"
+}
+
+terraform {
+  backend "s3" {
+    encrypt = true
+    bucket         = "tf-squad-states"
+    key            = "terraform.tfstate"
+    region         = "us-east-2"
+    dynamodb_table = "terraform-lock"
+  }
+}
+
 module "nomad" {
   source   = "./modules/nomad"
   key_name = aws_key_pair.key.key_name
