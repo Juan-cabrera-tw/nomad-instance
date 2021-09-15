@@ -1,12 +1,12 @@
 module "shared-state" {
-  source                      = "./modules/shared-state"
-  s3_bucket_name           = "tf-squad-states"
-  dynamo_db_table_name        = "terraform-lock"
+  source               = "./modules/shared-state"
+  s3_bucket_name       = "tf-squad-states"
+  dynamo_db_table_name = "terraform-lock"
 }
 
 terraform {
   backend "s3" {
-    encrypt = true
+    encrypt        = true
     bucket         = "tf-squad-states"
     key            = "terraform.tfstate"
     region         = "us-east-2"
@@ -15,11 +15,11 @@ terraform {
 }
 
 module "nomad" {
-  source   = "./modules/nomad"
-  key_name = aws_key_pair.key.key_name
-  key_path = var.PRIVATE_KEY_PATH
-  region   = var.AWS_REGION
-  vpc_id   = aws_default_vpc.default.id
+  source                 = "./modules/nomad"
+  key_name               = aws_key_pair.key.key_name
+  key_path               = var.PRIVATE_KEY_PATH
+  region                 = var.AWS_REGION
+  vpc_id                 = aws_default_vpc.default.id
   vpc_security_group_ids = ["${aws_security_group.lab_squad_sg.id}"]
   subnets = {
     "0" = aws_default_subnet.default_az1.id
