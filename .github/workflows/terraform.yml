@@ -16,10 +16,18 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: teams
+        # working-directory: teams
 
     # Checkout the repository to the GitHub Actions runner
     steps:
+    - name: List Files
+      run: |
+        pwd
+        ls -a
+        echo $GITHUB_SHA
+        echo $GITHUB_REPOSITORY
+        echo $GITHUB_WROKSPACE
+        echo "{{ github.token }}"
     - name: Checkout
       uses: actions/checkout@v2
 
