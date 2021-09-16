@@ -29,6 +29,6 @@ resource "aws_instance" "posgresql" {
     ]
   }
   tags = {
-    Name = "${var.workspace}-posgresql"
+    Name = "${var.workspace}-posgresql2"
   }
 }
