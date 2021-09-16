@@ -77,6 +77,25 @@ plugin "raw_exec" {
 consul {
    address = "127.0.0.1:8500"
 }
+
+vault {
+  enabled     = true
+
+  # Address to communicate with Vault. The below is the default address if
+  # unspecified.
+  address     = "172.31.12.239:8200"
+
+  # Embedding the token in the configuration is discouraged. Instead users
+  # should set the VAULT_TOKEN environment variable when starting the Nomad
+  # agent
+  token       = "s.808HS1UaY0NsRQh67uMSAJ39"
+
+  # Setting the create_from_role option causes Nomad to create tokens for tasks
+  # via the provided role. This allows the role to manage what policies are
+  # allowed and disallowed for use by tasks.
+  create_from_role = "nomad-cluster"
+  namespace = "default"
+}
 EOF
 else 
     echo "$SERVER_FILE does not exist."
@@ -124,6 +143,11 @@ consul {
   auto_advertise = true
   server_auto_join = true
   client_auto_join = true
+}
+
+vault {
+  enabled = true
+  address = "172.31.12.239:8200"
 }
 EOF
 echo "installing docker"
