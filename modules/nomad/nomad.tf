@@ -10,7 +10,8 @@ resource "aws_instance" "nomad_ec2" {
     host        = coalesce(self.public_ip, self.private_ip)
     type        = "ssh"
     user        = var.user
-    private_key = file(var.key_path)
+    # private_key = file(var.key_path)
+    private_key = var.key_path
   }
 
   tags = {
