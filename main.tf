@@ -41,6 +41,7 @@ module "nomad" {
     "1" = aws_default_subnet.default_az2.id
     "2" = aws_default_subnet.default_az3.id
   }
+  depends_on = [module.posgresql]
 }
 
 output "nomad-output" {
