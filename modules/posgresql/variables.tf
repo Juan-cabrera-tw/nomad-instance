@@ -27,7 +27,7 @@ variable "subnets" {
   description = "map of subnets to deploy your infrastructure in, must have as many keys as your server count (default 3), -var 'subnets={\"0\"=\"subnet-12345\",\"1\"=\"subnets-23456\"}' "
 }
 variable "private_ip" {
-  default = "172.31.48.10"
+  default = "172.31.48.11"
 }
 
 variable "vpc_security_group_ids" {
