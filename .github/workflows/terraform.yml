@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.TF_API_TOKEN }}
+      TF_VAR_idrsapub: ${{ secrets.ID_RSA_PUB }}
+      TF_VAR_idrsapem: ${{ secrets.ID_RSA_PEM }}
 
     defaults:
       run:
