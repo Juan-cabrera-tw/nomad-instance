@@ -11,7 +11,6 @@ resource "aws_instance" "nomad_ec2" {
     type        = "ssh"
     user        = var.user
     private_key = var.key_path
-    # private_key = file(var.key_path)
   }
 
   tags = {

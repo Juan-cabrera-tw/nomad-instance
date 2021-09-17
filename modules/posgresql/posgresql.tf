@@ -12,7 +12,6 @@ resource "aws_instance" "posgresql" {
       host        = self.public_ip
       user        = "ec2-user"
       private_key = var.key_path
-      # private_key = file(var.key_path)
     }
     inline = [
       "sudo yum update -y",
