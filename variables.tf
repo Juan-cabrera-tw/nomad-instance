@@ -3,11 +3,11 @@ variable "AWS_REGION" {
 }
 
 variable "PRIVATE_KEY" {
-  default = "./id_rsa.pem"
+  # default = "./id_rsa.pem"
 }
 
 variable "PUBLIC_KEY" {
-  default = "./id_rsa.pub"
+  # default = "./id_rsa.pub"
 }
 
 variable "platform" {
