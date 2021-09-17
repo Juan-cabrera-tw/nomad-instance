@@ -1,13 +1,13 @@
 resource "aws_security_group" "lab_squad_sg" {
   name = "lab-squad-group-${var.platform}"
 
-  ingress {
-    from_port   = "0"
-    to_port     = "0"
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    self        = true
-  }
+  # ingress {
+  #   from_port   = "0"
+  #   to_port     = "0"
+  #   protocol    = "-1"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  #   self        = true
+  # }
 
   ingress {
     from_port   = var.http_port
@@ -31,18 +31,25 @@ resource "aws_security_group" "lab_squad_sg" {
   }
 
   ingress {
-    from_port   = 4647
-    to_port     = 4647
+    from_port   = 5432
+    to_port     = 5432
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  ingress {
-    from_port   = 4648
-    to_port     = 4648
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
+  # ingress {
+  #   from_port   = 4647
+  #   to_port     = 4647
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
+
+  # ingress {
+  #   from_port   = 4648
+  #   to_port     = 4648
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["0.0.0.0/0"]
+  # }
 
   # ingress {
   #   from_port   = 8500

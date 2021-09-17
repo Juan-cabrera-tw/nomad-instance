@@ -2,14 +2,12 @@ variable "AWS_REGION" {
   default = "us-east-2"
 }
 
-variable "PRIVATE_KEY_PATH" {
-  # default = "./id_rsa.pem"
-  # default = {TF_VAR_idrsapem}
+variable "PRIVATE_KEY" {
+  # default = file("./id_rsa.pem")
 }
 
-variable "PUBLIC_KEY_PATH" {
-  # default = "./id_rsa.pub"
-  # kdefault = {TF_VAR_idrsapub}
+variable "PUBLIC_KEY" {
+  # default = file("./id_rsa.pub")
 }
 
 variable "platform" {

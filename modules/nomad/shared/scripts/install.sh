@@ -43,129 +43,31 @@ DIR_TO_JOIN=$(cat /tmp/nomad-server-addr | tr -d '\n')
 echo 'Write the flags to a temporary file'
 SERVER_FILE=/tmp/nomad-server-count
 if [ -f "$SERVER_FILE" ]; then
+    echo "$SERVER_FILE exists."
     cat >/tmp/consul_flags << EOF
     CONSUL_FLAGS="-server -bootstrap-expect=1 -join=${DIR_TO_JOIN} -data-dir=/opt/consul/data"
-EOF
-    echo "$SERVER_FILE exists."
-    cat >/tmp/nomad.conf << EOF
-datacenter = "dc1"
-data_dir  = "/opt/nomad/data"
-bind_addr = "0.0.0.0" # the default
-
-advertise {
-  # Defaults to the first private IP address.
-  # http = "1.2.3.4"
-  # rpc  = "1.2.3.4"
-  # serf = "1.2.3.4:5648" # non-default ports may be specified
-}
-
-server {
-   enabled          = true
-   bootstrap_expect = 1
-}
-
-client {
-  enabled       = false
-}
-
-plugin "raw_exec" {
-  config {
-      enabled = true
-  }
-}
-
-consul {
-   address = "127.0.0.1:8500"
-}
-
-vault {
-  enabled     = true
-
-  # Address to communicate with Vault. The below is the default address if
-  # unspecified.
-  address     = "172.31.12.239:8200"
-
-  # Embedding the token in the configuration is discouraged. Instead users
-  # should set the VAULT_TOKEN environment variable when starting the Nomad
-  # agent
-  token       = "s.808HS1UaY0NsRQh67uMSAJ39"
-
-  # Setting the create_from_role option causes Nomad to create tokens for tasks
-  # via the provided role. This allows the role to manage what policies are
-  # allowed and disallowed for use by tasks.
-  create_from_role = "nomad-cluster"
-  namespace = "default"
-}
 EOF
 else 
     echo "$SERVER_FILE does not exist."
     cat >/tmp/consul_flags << EOF
     CONSUL_FLAGS="-join=${DIR_TO_JOIN} -data-dir=/opt/consul/data"
 EOF
-    cat >/tmp/nomad.conf << EOF
-datacenter = "dc1"
-data_dir  = "/opt/nomad/data"
-bind_addr = "0.0.0.0" # the default
+    echo "installing docker"
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+    sudo apt-get install docker.io -y
 
-advertise {
-  # Defaults to the first private IP address.
-  # http = "1.2.3.4"
-  # rpc  = "1.2.3.4"
-  # serf = "1.2.3.4:5648" # non-default ports may be specified
-}
+    echo "installing aws cli"
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip
+    sudo ./aws/install
 
-server {
-   enabled          = false
-}
-
-client {
-  enabled       = true
-}
-
-plugin "raw_exec" {
-  config {
-      enabled = true
-  }
-}
-
-plugin "docker" {
-  config {
-    auth {
-      config = "/etc/docker-auth.json"
-    }
-  }
-}
-
-consul {
-  address = "127.0.0.1:8500"
-  server_service_name = "nomad"
-  client_service_name = "nomad-client"
-  auto_advertise = true
-  server_auto_join = true
-  client_auto_join = true
-}
-
-vault {
-  enabled = true
-  address = "172.31.12.239:8200"
-}
-EOF
-echo "installing docker"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-sudo apt-get install docker.io -y
-
-echo "installing aws cli"
-curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip awscliv2.zip
-sudo ./aws/install
-
-echo "installing amazon-ecr-credential-helper"
-sudo apt install amazon-ecr-credential-helper
-sudo chmod +x /usr/bin/docker-credential-ecr-login
-echo "PATH=$PATH:/usr/bin" >> ~/.bashrc
-source ~/.bashrc
-sudo usermod -G docker -a nomad
-sudo mv /tmp/docker-auth.json /etc/docker-auth.json
+    echo "installing amazon-ecr-credential-helper"
+    sudo apt install amazon-ecr-credential-helper
+    sudo chmod +x /usr/bin/docker-credential-ecr-login
+    echo "PATH=$PATH:/usr/bin" >> ~/.bashrc
+    source ~/.bashrc
+    sudo usermod -G docker -a ubuntu
+    sudo mv /tmp/docker-auth.json /etc/docker-auth.json
 fi
 
 echo "Installing Systemd nomad service..."

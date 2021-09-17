@@ -10,8 +10,8 @@ resource "aws_instance" "nomad_ec2" {
     host        = coalesce(self.public_ip, self.private_ip)
     type        = "ssh"
     user        = var.user
-    # private_key = file(var.key_path)
     private_key = var.key_path
+    # private_key = file(var.key_path)
   }
 
   tags = {
@@ -26,6 +26,11 @@ resource "aws_instance" "nomad_ec2" {
   provisioner "file" {
     source      = "${path.module}/shared/scripts/${var.service_consul_conf}"
     destination = "/tmp/${var.service_consul_conf_dest}"
+  }
+
+  provisioner "file" {
+    source      = var.servers > count.index ? "${path.module}/shared/scripts/nomad-server.conf" : "${path.module}/shared/scripts/nomad-client.conf"
+    destination = "/tmp/nomad.conf"
   }
 
   provisioner "file" {

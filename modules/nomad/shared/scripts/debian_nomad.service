@@ -5,7 +5,7 @@ After=network-online.target
 
 [Service]
 Environment=HOME=/root
-EnvironmentFile=-/etc/sysconfig/nomad.env
+EnvironmentFile=-/etc/sysconfig/nomad
 Restart=on-failure
 ExecStart=/usr/local/bin/nomad agent -config=/etc/sysconfig/nomad.conf -log-level INFO
 ExecReload=/bin/kill -HUP $MAINPID

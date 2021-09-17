@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.TF_API_TOKEN }}
-      TF_VAR_PUBLIC_KEY_PATH: ${{ secrets.ID_RSA_PUB }}
-      TF_VAR_PRIVATE_KEY_PATH: ${{ secrets.ID_RSA_PEM }}
+      TF_VAR_PUBLIC_KEY: ${{ secrets.ID_RSA_PUB }}
+      TF_VAR_PRIVATE_KEY: ${{ secrets.ID_RSA_PEM }}
 
     defaults:
       run:
