@@ -62,7 +62,8 @@ jobs:
 
     - name: secretossss
       run: |
-        echo $DB1_HOST
+        echo $DB1_HOST >> key
+        cat key
 
     # aws CLI setup
     - name: Configure AWS credentials from Test account
