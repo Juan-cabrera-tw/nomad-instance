@@ -48,7 +48,7 @@ jobs:
     #     run: |
     #       echo $AWS_ACCESS_KEY_ID
     #       echo $AWS_SECRET_ACCESS_KEY
-    - name: Import Secrets
+    - name: Import Secrets trying
       uses: hashicorp/vault-action@v2.3.1
       with:
         url: "http://3.17.190.121:8200"
