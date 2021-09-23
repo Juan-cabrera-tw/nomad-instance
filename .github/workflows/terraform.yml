@@ -54,7 +54,7 @@ jobs:
         url: "http://3.17.190.121:8200"
         token: "s.ZzLJJcM4iedCGwEq7a7mytdt"
         secrets: |
-              secrets/kv/engineering DB_HOST | DB1_HOST
+              secrets/kv/data/engineering DB_HOST | DB1_HOST
         # caCertificate: ${{ secrets.VAULT_CA }}
         # secrets: |
         #     aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
