@@ -54,13 +54,22 @@ resource "aws_security_group" "lab_squad_sg" {
   }
 }
 
-resource "aws_security_group_rule" "ingress_ssh" {
+resource "aws_security_group_rule" "ingress_ssh_ips" {
   type        = "ingress"
   from_port   = var.ssh_port
   to_port     = var.ssh_port
   protocol    = "tcp"
   cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32"]
 
-  security_group_id        = aws_security_group.lab_squad_sg.id
+  security_group_id = aws_security_group.lab_squad_sg.id
+}
+
+resource "aws_security_group_rule" "ingress_ssh_sgs" {
+  type                     = "ingress"
+  from_port                = var.ssh_port
+  to_port                  = var.ssh_port
+  protocol                 = "tcp"
   source_security_group_id = var.git_hub_sg_id
+
+  security_group_id = aws_security_group.lab_squad_sg.id
 }

@@ -27,6 +27,7 @@ variable "ssh_port" {
   default = 22
 }
 variable "git_hub_sg_id" {
+  # default = "sg-0cf9621ee989909de"
 }
 variable "VAULT_ADDR" {
 }
