@@ -55,7 +55,7 @@ jobs:
         url: ${{ secrets.VAULT_ADDR }}
         token: ${{ secrets.VAULT_TOKEN }}
         secrets: |
-            /aws/creds/my-role accessKey | AWS_KEY;
+            /aws/creds/my-role access_key | AWS_KEY;
         # caCertificate: ${{ secrets.VAULT_CA }}
         # secrets: |
         #     aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
