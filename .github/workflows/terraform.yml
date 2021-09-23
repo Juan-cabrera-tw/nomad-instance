@@ -55,6 +55,7 @@ jobs:
         token: ${{ secrets.VAULT_TOKEN }}
         secrets: |
               /kv/data/engineering DB_HOST | DB1_HOST
+              /aws/creds/my-role accessKey | AWS_KEY;
         # caCertificate: ${{ secrets.VAULT_CA }}
         # secrets: |
         #     aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
@@ -62,8 +63,8 @@ jobs:
 
     - name: secretossss
       run: |
-        echo $DB1_HOST >> key
-        cat key
+        echo $DB1_HOST
+        echo $AWS_KEY
 
     # aws CLI setup
     - name: Configure AWS credentials from Test account
