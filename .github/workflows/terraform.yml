@@ -36,18 +36,29 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    # - name: Import Secrets
+    #   uses: hashicorp/vault-action@v2.3.1
+    #   with:
+    #     url: ${{ secrets.VAULT_ADDR }}
+    #     token: ${{ secrets.VAULT_TOKEN }}
+    #     caCertificate: ${{ secrets.VAULT_CA }}
+    #     secrets: |
+    #         aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
+    #         aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
+    #     run: |
+    #       echo $AWS_ACCESS_KEY_ID
+    #       echo $AWS_SECRET_ACCESS_KEY
     - name: Import Secrets
       uses: hashicorp/vault-action@v2.3.1
       with:
-        url: ${{ secrets.VAULT_ADDR }}
-        token: ${{ secrets.VAULT_TOKEN }}
-        caCertificate: ${{ secrets.VAULT_CA }}
-        secrets: |
-            aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
-            aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
+        url: "http://3.17.190.121:8200"
+        token: "s.ZzLJJcM4iedCGwEq7a7mytdt"
+        # caCertificate: ${{ secrets.VAULT_CA }}
+        # secrets: |
+        #     aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
+        #     aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
         run: |
-          echo $AWS_ACCESS_KEY_ID
-          echo $AWS_SECRET_ACCESS_KEY
+          echo 'jejejeje'
 
     # aws CLI setup
     - name: Configure AWS credentials from Test account
