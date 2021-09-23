@@ -59,8 +59,10 @@ jobs:
         # secrets: |
         #     aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
         #     aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
-        run: |
-          echo ${DB1_HOST}
+
+    - name: secretossss
+      run: |
+        echo $DB1_HOST
 
     # aws CLI setup
     - name: Configure AWS credentials from Test account
