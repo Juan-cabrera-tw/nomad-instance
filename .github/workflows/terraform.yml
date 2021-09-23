@@ -36,35 +36,17 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # - name: Import Secrets
-    #   uses: hashicorp/vault-action@v2.3.1
-    #   with:
-    #     url: ${{ secrets.VAULT_ADDR }}
-    #     token: ${{ secrets.VAULT_TOKEN }}
-    #     caCertificate: ${{ secrets.VAULT_CA }}
     #     secrets: |
     #         /kv/data/engineering DB_HOST | DB1_HOST
-    #         aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
-    #         aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
-    #     run: |
-    #       echo $AWS_ACCESS_KEY_ID
-    #       echo $AWS_SECRET_ACCESS_KEY
+  
     - name: Import Secrets trying
       uses: hashicorp/vault-action@v2.3.1
       with:
         url: ${{ secrets.VAULT_ADDR }}
         token: ${{ secrets.VAULT_TOKEN }}
         secrets: |
-            /aws/creds/my-role access_key | AWS_KEY;
-        # caCertificate: ${{ secrets.VAULT_CA }}
-        # secrets: |
-        #     aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
-        #     aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
-
-    - name: secretossss
-      run: |
-        echo $DB1_HOST
-        echo $AWS_KEY
+            /aws/creds/my-role access_key | AWS_ECR_PULL_ACCESSS_KEY;
+            /aws/creds/my-role secret_key | AWS_ECR_PULL_SECRET_KEY;
 
     # aws CLI setup
     - name: Configure AWS credentials from Test account

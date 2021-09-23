@@ -5,7 +5,7 @@ resource "aws_instance" "nomad_ec2" {
   key_name               = var.key_name
   count                  = var.servers + var.clients
   vpc_security_group_ids = var.vpc_security_group_ids
-  subnet_id       = var.subnets[count.index % var.servers]
+  subnet_id              = var.subnets[count.index % var.servers]
   connection {
     host        = coalesce(self.public_ip, self.private_ip)
     type        = "ssh"
@@ -50,10 +50,8 @@ resource "aws_instance" "nomad_ec2" {
   provisioner "local-exec" {
     command = "bash ${path.module}/local/scripts/local-aws-cred.sh"
     environment = {
-      VAULT_ADDR=var.vault_addr
-      VAULT_TOKEN=var.vault_token
-      # VAULT_ADDR="http://3.17.190.121:8200"
-      # VAULT_TOKEN="s.ZzLJJcM4iedCGwEq7a7mytdt"
+      VAULT_ADDR  = var.vault_addr
+      VAULT_TOKEN = var.vault_token
     }
   }
 
@@ -63,7 +61,7 @@ resource "aws_instance" "nomad_ec2" {
   }
 
   provisioner "local-exec" {
-    command = "rm ${path.module}/local/scripts/*.credentials"
+    command    = "rm ${path.module}/local/scripts/*.credentials"
     on_failure = continue
   }
   provisioner "remote-exec" {
