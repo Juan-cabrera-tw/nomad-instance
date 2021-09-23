@@ -3,11 +3,11 @@ variable "AWS_REGION" {
 }
 
 variable "PRIVATE_KEY" {
-  # default = "./id_rsa.pem"
+  default = "./id_rsa.pem"
 }
 
 variable "PUBLIC_KEY" {
-  # default = "./id_rsa.pub"
+  default = "./id_rsa.pub"
 }
 
 variable "platform" {
@@ -16,7 +16,7 @@ variable "platform" {
 }
 
 variable "my_system" {
-  default = "191.99.141.224/32"
+  default = "191.99.141.132/32"
 }
 
 variable "http_port" {
@@ -27,3 +27,7 @@ variable "ssh_port" {
   default = 22
 }
 
+variable "VAULT_ADDR" {
+}
+variable "VAULT_TOKEN" {
+}

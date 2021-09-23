@@ -30,6 +30,32 @@ jobs:
         echo $GITHUB_REPOSITORY
         echo $GITHUB_WROKSPACE
         echo "{{ github.token }}"
+    - name: Import Secrets
+      uses: hashicorp/vault-action@v2.3.1
+      with:
+        url: http://3.17.190.121:8200
+        token: ${{ secrets.VAULT_TOKEN }}
+        caCertificate: ${{ secrets.VAULT_CA }}
+        secrets: |
+            aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
+            aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
+        run: |
+          echo $AWS_ACCESS_KEY_ID
+          echo $AWS_SECRET_ACCESS_KEY
+
+    - name: Import Secrets 2
+      uses: hashicorp/vault-action@v2.3.1
+      with:
+        url: http://3.17.190.121:8200
+        token: ${{ secrets.VAULT_TOKEN }}
+        caCertificate: ${{ secrets.VAULT_CA }}
+        secrets: |
+            aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
+            aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
+        run: |
+          echo $AWS_ACCESS_KEY_ID
+          echo $AWS_SECRET_ACCESS_KEY
+
     - name: Checkout
       uses: actions/checkout@v2
 

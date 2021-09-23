@@ -74,5 +74,15 @@ variable "vpc_security_group_ids" {
   description = "ID of the VPC to use - in case your account doesn't have default VPC"
 }
 
+variable "vault_addr" {
+  description = "ip from vault"
+}
+
+variable "vault_token" {
+  description = "token of vault"
+}
+
+
+
 
 

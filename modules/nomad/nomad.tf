@@ -33,6 +33,11 @@ resource "aws_instance" "nomad_ec2" {
   }
 
   provisioner "file" {
+    source      = "${path.module}/shared/scripts/consul.hcl"
+    destination = "/tmp/consul.hcl"
+  }
+
+  provisioner "file" {
     source      = "${path.module}/shared/scripts/docker-auth.json"
     destination = "/tmp/docker-auth.json"
   }
@@ -42,10 +47,29 @@ resource "aws_instance" "nomad_ec2" {
     destination = "/tmp/fabio.nomad"
   }
 
+  provisioner "local-exec" {
+    command = "bash ${path.module}/local/scripts/local-aws-cred.sh"
+    environment = {
+      VAULT_ADDR=var.vault_addr
+      VAULT_TOKEN=var.vault_token
+      # VAULT_ADDR="http://3.17.190.121:8200"
+      # VAULT_TOKEN="s.ZzLJJcM4iedCGwEq7a7mytdt"
+    }
+  }
+
+  provisioner "file" {
+    source      = "${path.module}/local/scripts/aws.credentials"
+    destination = "/tmp/aws.credentials"
+  }
+
+  provisioner "local-exec" {
+    command = "rm ${path.module}/local/scripts/*.credentials"
+    on_failure = continue
+  }
   provisioner "remote-exec" {
     inline = [
       var.servers > count.index ? "echo ${var.servers} > /tmp/nomad-server-count" : "echo ${var.clients} > /tmp/nomad-client-count",
-      "echo ${aws_instance.nomad_ec2[0].private_ip} > /tmp/nomad-server-addr",
+      "echo ${aws_instance.nomad_ec2[0].private_ip} > /tmp/nomad-server-addr"
     ]
   }
 

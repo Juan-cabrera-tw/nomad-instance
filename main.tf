@@ -15,14 +15,14 @@ terraform {
 }
 
 module "posgresql" {
-  source                 = "./modules/posgresql"
-  key_name               = aws_key_pair.key.key_name
+  source   = "./modules/posgresql"
+  key_name = aws_key_pair.key.key_name
   # key_path               = file(var.PRIVATE_KEY)
   key_path               = var.PRIVATE_KEY
   region                 = var.AWS_REGION
   vpc_security_group_ids = ["${aws_security_group.lab_squad_sg.id}"]
-  ACCESS_KEY = ""
-  SECRET_KEY = ""
+  ACCESS_KEY             = ""
+  SECRET_KEY             = ""
   subnets = {
     "0" = aws_default_subnet.default_az1.id
     "1" = aws_default_subnet.default_az2.id
@@ -31,13 +31,16 @@ module "posgresql" {
 }
 
 module "nomad" {
-  source                 = "./modules/nomad"
-  key_name               = aws_key_pair.key.key_name
-  key_path               = var.PRIVATE_KEY
+  source   = "./modules/nomad"
+  key_name = aws_key_pair.key.key_name
+  key_path = var.PRIVATE_KEY
   # key_path               = file(var.PRIVATE_KEY)
   region                 = var.AWS_REGION
   vpc_id                 = aws_default_vpc.default.id
   vpc_security_group_ids = ["${aws_security_group.lab_squad_sg.id}"]
+  vault_addr             = var.VAULT_ADDR
+  vault_token            = var.VAULT_TOKEN
+
   subnets = {
     "0" = aws_default_subnet.default_az1.id
     "1" = aws_default_subnet.default_az2.id

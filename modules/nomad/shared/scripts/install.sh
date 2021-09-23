@@ -31,6 +31,8 @@ chmod +x consul
 sudo mv consul /usr/local/bin/consul
 sudo mkdir -p /opt/consul/data
 
+sudo mkdir -p /etc/systemd/system/consul.d
+
 echo "Read from the file we created"
 if [ -f /tmp/nomad-server-count ]; then
   SERVER_COUNT=$(cat /tmp/nomad-server-count | tr -d '\n')
@@ -39,6 +41,11 @@ else
 fi
 
 DIR_TO_JOIN=$(cat /tmp/nomad-server-addr | tr -d '\n')
+# ACTUAL_DIR=$(cat /tmp/actual-addr | tr -d '\n')
+ACTUAL_DIR=$(hostname -I)
+
+echo 'own ip'
+echo $ACTUAL_DIR
 
 echo 'Write the flags to a temporary file'
 SERVER_FILE=/tmp/nomad-server-count
@@ -49,8 +56,11 @@ if [ -f "$SERVER_FILE" ]; then
 EOF
 else 
     echo "$SERVER_FILE does not exist."
+    perl -i -pe "s/servers private ips/\"$DIR_TO_JOIN\"/g" /tmp/consul.hcl
+    perl -i -pe "s/owm private ip/${ACTUAL_DIR}/g" /tmp/consul.hcl
+    sudo mv /tmp/consul.hcl /etc/systemd/system/consul.d/
     cat >/tmp/consul_flags << EOF
-    CONSUL_FLAGS="-join=${DIR_TO_JOIN} -data-dir=/opt/consul/data"
+    CONSUL_FLAGS="-join=${DIR_TO_JOIN}"
 EOF
     echo "installing docker"
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
@@ -75,18 +85,16 @@ sudo mkdir -p /etc/sysconfig
 sudo mkdir -p /etc/systemd/system/nomad.d
 sudo chown root:root /tmp/nomad.service
 sudo mv /tmp/nomad.service /etc/systemd/system/nomad.service
-sudo mv /tmp/nomad*json /etc/systemd/system/nomad.d/ || echo
 sudo chmod 0644 /etc/systemd/system/nomad.service
 sudo mv /tmp/nomad.conf /etc/sysconfig/nomad.conf
+sudo mv /tmp/aws.credentials /etc/sysconfig/nomad
 sudo chown root:root /etc/sysconfig/nomad.conf
 sudo chmod 0644 /etc/sysconfig/nomad.conf
 
 echo "Installing Systemd consul service..."
 sudo mkdir -p /etc/sysconfig
-sudo mkdir -p /etc/systemd/system/consul.d
 sudo chown root:root /tmp/consul.service
 sudo mv /tmp/consul.service /etc/systemd/system/consul.service
-sudo mv /tmp/consul*json /etc/systemd/system/consul.d/ || echo
 sudo chmod 0644 /etc/systemd/system/consul.service
 sudo mv /tmp/consul_flags /etc/sysconfig/consul
 sudo chown root:root /etc/sysconfig/consul
