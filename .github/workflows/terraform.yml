@@ -53,12 +53,14 @@ jobs:
       with:
         url: "http://3.17.190.121:8200"
         token: "s.ZzLJJcM4iedCGwEq7a7mytdt"
+        secrets: |
+              aws/creds/my-role | KEYSS
         # caCertificate: ${{ secrets.VAULT_CA }}
         # secrets: |
         #     aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
         #     aws/creds/my-role secretKey | AWS_SECRET_ACCESS_KEY ;
         run: |
-          echo 'jejejeje'
+          echo $KEYSS
 
     # aws CLI setup
     - name: Configure AWS credentials from Test account
