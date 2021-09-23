@@ -51,10 +51,10 @@ jobs:
     - name: Import Secrets trying
       uses: hashicorp/vault-action@v2.3.1
       with:
-        url: "http://3.17.190.121:8200"
-        token: "s.ZzLJJcM4iedCGwEq7a7mytdt"
+        url: ${{ secrets.VAULT_ADDR }}
+        token: ${{ secrets.VAULT_TOKEN }}
         secrets: |
-              /kv/data/engineering DB_HOST1 | DB1_HOST
+              /kv/data/engineering DB_HOST | DB1_HOST
         # caCertificate: ${{ secrets.VAULT_CA }}
         # secrets: |
         #     aws/creds/my-role accessKey | AWS_ACCESS_KEY_ID ;
