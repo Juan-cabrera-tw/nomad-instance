@@ -14,6 +14,8 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.TF_API_TOKEN }}
       TF_VAR_PUBLIC_KEY: ${{ secrets.ID_RSA_PUB }}
       TF_VAR_PRIVATE_KEY: ${{ secrets.ID_RSA_PEM }}
+      TF_VAR_VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+      TF_VAR_VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
 
     defaults:
       run:
@@ -33,7 +35,7 @@ jobs:
     - name: Import Secrets
       uses: hashicorp/vault-action@v2.3.1
       with:
-        url: http://3.17.190.121:8200
+        url: ${{ secrets.VAULT_ADDR }}
         token: ${{ secrets.VAULT_TOKEN }}
         caCertificate: ${{ secrets.VAULT_CA }}
         secrets: |
