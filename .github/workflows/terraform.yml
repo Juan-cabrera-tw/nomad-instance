@@ -39,6 +39,14 @@ jobs:
 
     #     secrets: |
     #         /kv/data/engineering DB_HOST | DB1_HOST
+    - name: Get Github action IP
+      id: ip
+      uses: haythem/public-ip@v1.2
+
+    - name: Add Github Actions IP to Security group
+      run: |
+        aws ec2 authorize-security-group-ingress --group-name github_actions_group --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+
   
     - name: Import Secrets trying
       uses: hashicorp/vault-action@v2.3.1
@@ -56,14 +64,6 @@ jobs:
         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
-
-    - name: Get Github action IP
-      id: ip
-      uses: haythem/public-ip@v1.2
-
-    - name: Add Github Actions IP to Security group
-      run: |
-        aws ec2 authorize-security-group-ingress --group-name github_actions_group --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
 
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
