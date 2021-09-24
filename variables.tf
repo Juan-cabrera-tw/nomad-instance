@@ -32,3 +32,7 @@ variable "VAULT_ADDR" {
 }
 variable "VAULT_TOKEN" {
 }
+
+variable "var.IP_GITHUB" {
+  default = "191.99.141.132/32"
+}

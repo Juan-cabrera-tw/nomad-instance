@@ -17,6 +17,7 @@ jobs:
       TF_VAR_VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       TF_VAR_VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       TF_VAR_ACTIONS_SG_ID: "sg-0cf9621ee989909de"
+      TF_VAT_IP_GITHUB: ""
 
     defaults:
       run:
@@ -53,7 +54,7 @@ jobs:
 
     - name: Add Github Actions IP to Security group
       run: |
-        aws ec2 authorize-security-group-ingress --group-name github_actions_group --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        TF_VAT_IP_GITHUB = ${{ steps.ip.outputs.ipv4 }}/32
         aws ec2 authorize-security-group-ingress --group-name vault_sg --protocol tcp --port 8200 --cidr ${{ steps.ip.outputs.ipv4 }}/32  
   
     - name: Import Secrets trying
@@ -124,5 +125,5 @@ jobs:
     
     - name: Remove Github Actions IP from security group
       run: |
-        aws ec2 revoke-security-group-ingress --group-name github_actions_group --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
+        aws ec2 revoke-security-group-ingress --group-name lab-squad-group-ubuntu --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32
         aws ec2 revoke-security-group-ingress --group-name vault_sg --protocol tcp --port 8200 --cidr ${{ steps.ip.outputs.ipv4 }}/32
