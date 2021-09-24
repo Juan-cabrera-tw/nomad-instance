@@ -16,7 +16,7 @@ jobs:
       TF_VAR_PRIVATE_KEY: ${{ secrets.ID_RSA_PEM }}
       TF_VAR_VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
       TF_VAR_VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
-      TF_VAR_git_hub_sg_id: "sg-0cf9621ee989909de"
+      TF_VAR_ACTIONS_SG_ID: "sg-0cf9621ee989909de"
 
     defaults:
       run:

@@ -69,7 +69,7 @@ resource "aws_security_group_rule" "ingress_ssh_sgs" {
   from_port                = var.ssh_port
   to_port                  = var.ssh_port
   protocol                 = "tcp"
-  source_security_group_id = var.git_hub_sg_id
+  source_security_group_id = var.ACTIONS_SG_ID
 
   security_group_id = aws_security_group.lab_squad_sg.id
 }
