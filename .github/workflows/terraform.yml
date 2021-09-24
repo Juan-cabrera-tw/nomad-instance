@@ -55,7 +55,7 @@ jobs:
 
     - name: Add Github Actions IP to Security group
       run: |
-        set TF_VAR_IP_GITHUB = ${{ steps.ip.outputs.ipv4 }}/32
+        env.TF_VAR_IP_GITHUB = ${{ steps.ip.outputs.ipv4 }}/32
         aws ec2 authorize-security-group-ingress --group-name vault_sg --protocol tcp --port 8200 --cidr ${{ steps.ip.outputs.ipv4 }}/32
         echo $TF_VAR_IP_GITHUB  
   
