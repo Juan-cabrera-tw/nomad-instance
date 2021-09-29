@@ -16,7 +16,7 @@ variable "platform" {
 }
 
 variable "my_system" {
-  default = "191.99.141.132/32"
+  default = "191.99.141.142/32"
 }
 
 variable "http_port" {
@@ -34,5 +34,9 @@ variable "VAULT_TOKEN" {
 }
 
 variable "IP_GITHUB" {
-  default = "191.99.141.132/32"
+  # default = "191.99.141.132/32"
+}
+
+variable "VAULT_PRIVATE_ADDR" {
+
 }

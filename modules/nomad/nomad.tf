@@ -67,7 +67,8 @@ resource "aws_instance" "nomad_ec2" {
   provisioner "remote-exec" {
     inline = [
       var.servers > count.index ? "echo ${var.servers} > /tmp/nomad-server-count" : "echo ${var.clients} > /tmp/nomad-client-count",
-      "echo ${aws_instance.nomad_ec2[0].private_ip} > /tmp/nomad-server-addr"
+      "echo ${aws_instance.nomad_ec2[0].private_ip} > /tmp/nomad-server-addr",
+      "echo ${var.vault_private_addr} > /tmp/vault-private-addr"
     ]
   }
 

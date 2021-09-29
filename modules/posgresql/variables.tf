@@ -41,3 +41,7 @@ variable "key_path" {
 variable "key_name" {
   description = "SSH key name in your AWS account for AWS instances."
 }
+
+variable "vault_private_addr" {
+  description = "private ip of vault"
+}

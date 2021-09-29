@@ -1,13 +1,13 @@
 module "shared-state" {
   source               = "./modules/shared-state"
-  s3_bucket_name       = "tf-squad-states"
+  s3_bucket_name       = "tf-squad-state"
   dynamo_db_table_name = "terraform-lock"
 }
 
 terraform {
   backend "s3" {
     encrypt        = true
-    bucket         = "tf-squad-states"
+    bucket         = "tf-squad-state"
     key            = "terraform.tfstate"
     region         = "us-east-2"
     dynamodb_table = "terraform-lock"
@@ -23,6 +23,7 @@ module "posgresql" {
   vpc_security_group_ids = ["${aws_security_group.lab_squad_sg.id}"]
   ACCESS_KEY             = ""
   SECRET_KEY             = ""
+  vault_private_addr     = var.VAULT_PRIVATE_ADDR
   subnets = {
     "0" = aws_default_subnet.default_az1.id
     "1" = aws_default_subnet.default_az2.id
@@ -39,6 +40,7 @@ module "nomad" {
   vpc_id                 = aws_default_vpc.default.id
   vpc_security_group_ids = ["${aws_security_group.lab_squad_sg.id}"]
   vault_addr             = var.VAULT_ADDR
+  vault_private_addr     = var.VAULT_PRIVATE_ADDR
   vault_token            = var.VAULT_TOKEN
 
   subnets = {

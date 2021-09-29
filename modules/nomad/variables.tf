@@ -82,6 +82,9 @@ variable "vault_token" {
   description = "token of vault"
 }
 
+variable "vault_private_addr" {
+  description = "private ip of vault"
+}
 
 
 

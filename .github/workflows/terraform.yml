@@ -15,6 +15,7 @@ jobs:
       TF_VAR_PUBLIC_KEY: ${{ secrets.ID_RSA_PUB }}
       TF_VAR_PRIVATE_KEY: ${{ secrets.ID_RSA_PEM }}
       TF_VAR_VAULT_ADDR: ${{ secrets.VAULT_ADDR }}
+      TF_VAR_VAULT_PRIVATE_ADDR: ${{ secrets.VAULT_PRIVATE_ADDR }}
       TF_VAR_VAULT_TOKEN: ${{ secrets.VAULT_TOKEN }}
       TF_VAR_ACTIONS_SG_ID: "sg-0cf9621ee989909de"
       TF_VAR_IP_GITHUB: ""

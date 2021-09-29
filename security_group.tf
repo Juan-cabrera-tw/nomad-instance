@@ -10,7 +10,7 @@ resource "aws_security_group" "lab_squad_sg" {
     from_port   = 4646
     to_port     = 4648
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32"]
   }
 
   ingress {
@@ -41,6 +41,14 @@ resource "aws_security_group" "lab_squad_sg" {
   }
 
   ingress {
+    from_port = var.ssh_port
+    to_port   = var.ssh_port
+    protocol  = "tcp"
+    # cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32", "${var.IP_GITHUB}"]
+    cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32"]
+  }
+
+  ingress {
     from_port   = 9999
     to_port     = 9999
     protocol    = "tcp"
@@ -54,22 +62,23 @@ resource "aws_security_group" "lab_squad_sg" {
   }
 }
 
-resource "aws_security_group_rule" "ingress_ssh_ips" {
-  type        = "ingress"
-  from_port   = var.ssh_port
-  to_port     = var.ssh_port
-  protocol    = "tcp"
-  cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32", "${var.IP_GITHUB}"]
+# resource "aws_security_group_rule" "ingress_ssh_ips" {
+#   type      = "ingress"
+#   from_port = var.ssh_port
+#   to_port   = var.ssh_port
+#   protocol  = "tcp"
+#   # cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32", "${var.IP_GITHUB}"]
+#   cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32"]
 
-  security_group_id = aws_security_group.lab_squad_sg.id
-}
+#   security_group_id = aws_security_group.lab_squad_sg.id
+# }
 
-resource "aws_security_group_rule" "ingress_ssh_sgs" {
-  type                     = "ingress"
-  from_port                = var.ssh_port
-  to_port                  = var.ssh_port
-  protocol                 = "tcp"
-  source_security_group_id = var.ACTIONS_SG_ID
+# resource "aws_security_group_rule" "ingress_ssh_sgs" {
+#   type                     = "ingress"
+#   from_port                = var.ssh_port
+#   to_port                  = var.ssh_port
+#   protocol                 = "tcp"
+#   source_security_group_id = var.ACTIONS_SG_ID
 
-  security_group_id = aws_security_group.lab_squad_sg.id
-}
+#   security_group_id = aws_security_group.lab_squad_sg.id
+# }
