@@ -44,8 +44,8 @@ resource "aws_security_group" "lab_squad_sg" {
     from_port = var.ssh_port
     to_port   = var.ssh_port
     protocol  = "tcp"
-    # cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32", "${var.IP_GITHUB}"]
-    cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32"]
+    cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32", "${var.IP_GITHUB}"]
+    #cidr_blocks = ["${var.my_system}", "190.110.58.40/32", "157.100.173.28/32"]
   }
 
   ingress {
